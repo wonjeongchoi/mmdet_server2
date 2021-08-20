@@ -90,7 +90,7 @@ class ResultVisualizer:
                           dataset,
                           results,
                           topk=20,
-                          show_dir='work_dir',
+                          show_dir='work_dirs',
                           eval_fn=None):
         """Evaluate and show results.
 
@@ -100,7 +100,7 @@ class ResultVisualizer:
             topk (int): Number of the highest topk and
                 lowest topk after evaluation index sorting. Default: 20
             show_dir (str, optional): The filename to write the image.
-                Default: 'work_dir'
+                Default: 'work_dirs'
             eval_fn (callable, optional): Eval function, Default: None
         """
 

@@ -37,6 +37,7 @@ def parse_args():
     group_gpus.add_argument(
         '--gpu-ids',
         type=int,
+        default=[6],
         nargs='+',
         help='ids of gpus to use '
         '(only applicable to non-distributed training)')
@@ -97,12 +98,12 @@ def main():
     if cfg.get('cudnn_benchmark', False):
         torch.backends.cudnn.benchmark = True
 
-    # work_dir is determined in this priority: CLI > segment in file > filename
+    # work_dirs is determined in this priority: CLI > segment in file > filename
     if args.work_dir is not None:
-        # update configs according to CLI args if args.work_dir is not None
+        # update configs according to CLI args if args.work_dirs is not None
         cfg.work_dir = args.work_dir
-    elif cfg.get('work_dir', None) is None:
-        # use config filename as default work_dir if cfg.work_dir is None
+    elif cfg.get('work_dirs', None) is None:
+        # use config filename as default work_dirs if cfg.work_dirs is None
         cfg.work_dir = osp.join('./work_dirs',
                                 osp.splitext(osp.basename(args.config))[0])
     if args.resume_from is not None:
@@ -122,7 +123,7 @@ def main():
         _, world_size = get_dist_info()
         cfg.gpu_ids = range(world_size)
 
-    # create work_dir
+    # create work_dirs
     mmcv.mkdir_or_exist(osp.abspath(cfg.work_dir))
     # dump config
     cfg.dump(osp.join(cfg.work_dir, osp.basename(args.config)))
